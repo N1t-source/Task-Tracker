@@ -20,7 +20,7 @@ def filter_info(info):
         elif main_command == "mark-done":
             print(f"adding task")#marks it done
         elif main_command == "list":
-            print(f"adding task") #list all the tasks
+            listing_info() #list all the tasks
         else:
             print("unknow command! ")
 
@@ -33,14 +33,20 @@ def adding_info(follow_up=None):
             "description": follow_up,
             "status":"todo"
         }
+        formating_data(new_task)
         tasks.append(new_task)
         print(f"Task added successfully: {new_task}")
  
 def listing_info():
-    if len(tasks) == 0 or tasks == None:
+    if len(tasks) == 0 :
         print("No task yet")
+    else:
+        for task in tasks:
+            print(formating_data(task))
 run = True
 
+def formating_data(info_filter):
+    return f"ID: {info_filter['id']} | Description:{info_filter['description']} | Status: {info_filter['status']}"
 
 print("========================================")
 print("       🌍 Welcome to Tasknote CLI      ")
