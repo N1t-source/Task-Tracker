@@ -14,7 +14,11 @@ def filter_info(info):
         elif main_command == "update":
          print(f"adding task")#so it updates the info or modify it with a new info
         elif main_command == "delete":
-            print(f"adding task") #deletes the info
+            if len(info) < 2:
+                delete_fuc()
+            else:
+                sub_info = info[1]
+            delete_fuc(sub_info)
         elif main_command == "mark-in-progress":
             print(f"adding task")# mark the task in progress
         elif main_command == "mark-done":
@@ -44,6 +48,25 @@ def listing_info():
         for task in tasks:
             print(formating_data(task))
 run = True
+def delete_fuc(index=None):
+    if index is None:
+        print("add the id:")
+        return
+
+    try:
+        i = int(index) - 1
+        deleted = tasks.pop(i)
+
+        for position, task in enumerate(tasks, start=1):
+            task["id"] = position
+
+        print(f"Deleted task: {deleted}")
+    except (TypeError, ValueError, IndexError):
+        print("Please enter a valid task id")
+        
+        
+
+
 
 def formating_data(info_filter):
     return f"ID: {info_filter['id']} | Description:{info_filter['description']} | Status: {info_filter['status']}"
@@ -56,7 +79,7 @@ print("Type quit to exit")
 
 def slicing_info(slicer):
      
-    slicer = task_info.strip().lower()
+    slicer = slicer.strip().lower()
     if slicer == "/help":
         commands = [
     'add "Buy groceries"',
@@ -80,9 +103,12 @@ def slicing_info(slicer):
         filter_info(filtered)
         return True
     
-while run:
+while True:
  task_info = input(">:")
- run = slicing_info(task_info)
+ if run == True:
+  run = slicing_info(task_info)
+ else:
+     break
 
 
 
