@@ -12,13 +12,18 @@ def filter_info(info):
                 sub_info = info[1]
                 adding_info(sub_info) #so it just like filters the first command
         elif main_command == "update":
-         print(f"adding task")#so it updates the info or modify it with a new info
+            if len(info) < 3:
+                update_fuc()
+            else:
+                task_id = info[1]
+                new_text = info[2]
+                update_fuc(task_id, new_text)
         elif main_command == "delete":
             if len(info) < 2:
                 delete_fuc()
             else:
                 sub_info = info[1]
-            delete_fuc(sub_info)
+                delete_fuc(sub_info)
         elif main_command == "mark-in-progress":
             print(f"adding task")# mark the task in progress
         elif main_command == "mark-done":
@@ -52,7 +57,6 @@ def delete_fuc(index=None):
     if index is None:
         print("add the id:")
         return
-
     try:
         i = int(index) - 1
         deleted = tasks.pop(i)
@@ -64,8 +68,25 @@ def delete_fuc(index=None):
     except (TypeError, ValueError, IndexError):
         print("Please enter a valid task id")
         
-        
+def update_fuc(id=None, new_text=None):
+    if id is None or new_text is None:
+        print("Please provide task id and new description")
+        return
 
+    try:
+        a = int(id)
+    except (TypeError, ValueError):
+        print("Please enter a valid task id")
+        return
+
+    for task in tasks:
+        if task["id"] == a:
+            task["description"] = new_text
+            print(f"Task updated successfully: {task}")
+            return
+
+    print("Task not found")
+        
 
 
 def formating_data(info_filter):
