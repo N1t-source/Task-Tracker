@@ -60,7 +60,7 @@ def adding_info(follow_up=None):
         }
         tasks.append(new_task)
         save_tasks()
-        print(f"Task added successfully: {new_task['description']}")
+        print(f"Task added successfully: {new_task['description']} \nID {new_task['id']}")
 
 def listing_info(status=None):
     """Displays tasks, optionally filtered by their current status."""
