@@ -1,4 +1,6 @@
 import shlex
+import os
+import json
 tasks = []
 def filter_info(info):
     info
@@ -53,6 +55,7 @@ def adding_info(follow_up=None):
         }
         formating_data(new_task)
         tasks.append(new_task)
+        save_tasks()
         print(f"Task added successfully: {new_task}")
  
 def listing_info(status=None):
@@ -135,6 +138,20 @@ def mark_done(id=None, status=None):
 
     print("Error")
         
+FILE_NAME = "tasks.json"
+def ensure_file():
+    if not os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "w") as file:
+            json.dump([], file)
+
+def save_tasks():
+    with open(FILE_NAME, "w") as file:
+        json.dump(tasks, file, indent=4)
+
+def load_tasks():
+    global tasks
+    with open(FILE_NAME, "r") as file:
+        tasks = json.load(file)
 
 
 def formating_data(info_filter):
@@ -171,6 +188,9 @@ def slicing_info(slicer):
         filtered = shlex.split(slicer)
         filter_info(filtered)
         return True
+    
+ensure_file()
+load_tasks()
     
 while True:
  task_info = input(">:")
