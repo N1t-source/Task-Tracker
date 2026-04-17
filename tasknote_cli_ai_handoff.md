@@ -416,3 +416,159 @@ Before helping with any repo / GitHub / sync issue, always ask:
 If not, help the user connect it first.
 
 Before helping with code, continue from the current function-based CLI structure and do not push classes unless the user explicitly requests that change.
+
+---
+
+## Session update — today
+
+This section updates the handoff based on the latest development session.
+
+### New progress made today
+
+The project has moved forward from basic CRUD into status-handling.
+
+### Newly working or mostly working
+The following features are now implemented in addition to the earlier progress:
+
+1. **mark-in-progress**
+   - Command pattern:
+   ```text
+   mark-in-progress 1
+   ```
+   - Current behavior:
+     - checks for missing id
+     - converts id to integer
+     - finds matching task
+     - updates `status` to `"in-progress"`
+
+2. **mark-done**
+   - Command pattern:
+   ```text
+   mark-done 1
+   ```
+   - Current behavior:
+     - checks for missing id
+     - converts id to integer
+     - finds matching task
+     - updates `status` to `"done"`
+
+### Current completed command set
+At this point, the in-memory CLI app now has:
+
+```text
+add
+update
+delete
+list
+mark-in-progress
+mark-done
+/help
+quit
+```
+
+### Current development stage after today
+The project is now at this stage:
+
+#### Done
+- input loop
+- command parsing
+- help
+- quit
+- add
+- list (show all)
+- delete
+- update
+- mark-in-progress
+- mark-done
+- formatting for task display
+
+#### Next recommended goals
+The next best features to build now are:
+
+1. `list done`
+2. `list todo`
+3. `list in-progress`
+4. save tasks to JSON
+5. load tasks from JSON on startup
+6. polish validation and messages
+
+### Updated recommended build order
+Future AI should now follow this order:
+
+```text
+1. list by status
+2. save tasks to JSON
+3. load tasks from JSON on startup
+4. improve validation/messages
+5. optional cleanup later
+```
+
+### Important implementation note from today
+The `list` command currently works for showing **all tasks**, but the following commands are still not implemented yet:
+
+```text
+list done
+list todo
+list in-progress
+```
+
+Future AI should help the user add optional status filtering to `listing_info()`, using a pattern like:
+
+```text
+listing_info()              -> show all
+listing_info("done")        -> show only done
+listing_info("todo")        -> show only todo
+listing_info("in-progress") -> show only in-progress
+```
+
+Then `filter_info()` should route:
+
+```text
+list              -> listing_info()
+list done         -> listing_info("done")
+list todo         -> listing_info("todo")
+list in-progress  -> listing_info("in-progress")
+```
+
+### Current known issue / caution after today
+1. The input is still lowercased in `slicing_info()`:
+   ```python
+   slicer = slicer.strip().lower()
+   ```
+   This means task descriptions are still forced to lowercase.
+
+2. The code is still **in-memory only**.
+   - Tasks disappear when the program closes.
+   - JSON persistence is still the next major milestone.
+
+3. The user wants **small targeted fixes only**.
+   - Future AI should not rewrite the whole project unless explicitly asked.
+
+### Updated short status summary for future AI
+If asked "where are we now?", a good updated answer would be:
+
+```text
+You have:
+- add
+- list
+- delete
+- update
+- mark-in-progress
+- mark-done
+- help
+- quit
+
+Next best step:
+- list by status
+- JSON save/load
+- polish messages
+```
+
+### Reminder for repo-related help
+This rule still applies and must remain active:
+
+Before helping with any GitHub / repo / sync issue, always ask:
+
+**Have you connected the repo to your local machine yet?**
+
+If not, guide the user through connecting it before continuing.

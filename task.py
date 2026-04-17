@@ -25,11 +25,20 @@ def filter_info(info):
                 sub_info = info[1]
                 delete_fuc(sub_info)
         elif main_command == "mark-in-progress":
-            print(f"adding task")# mark the task in progress
+         if len(info) < 2:
+            mark_in_progress()
+         else:
+            task_id = info[1]
+            mark_in_progress(task_id, "in-progress")
+
         elif main_command == "mark-done":
-            print(f"adding task")#marks it done
+         if len(info) < 2:
+            mark_done()
+         else:
+            task_id = info[1]
+            mark_done(task_id, "done")
         elif main_command == "list":
-            listing_info() #list all the tasks
+                listing_info() #list all the tasks
         else:
             print("unknow command! ")
 
@@ -46,7 +55,7 @@ def adding_info(follow_up=None):
         tasks.append(new_task)
         print(f"Task added successfully: {new_task}")
  
-def listing_info():
+def listing_info(status=None):
     if len(tasks) == 0 :
         print("No task yet")
     else:
@@ -86,6 +95,45 @@ def update_fuc(id=None, new_text=None):
             return
 
     print("Task not found")
+
+
+def mark_in_progress(id=None, status=None):
+    if id is None or status is None:
+        print("Please provide task id and new description")
+        return
+
+    try:
+        a = int(id)
+    except (TypeError, ValueError):
+        print("Please enter a valid task id")
+        return
+
+    for task in tasks:
+        if task["id"] == a:
+            task["status"] = status
+            print(f"status successfully added: {task}")
+            return
+
+    print("Error")
+
+def mark_done(id=None, status=None):
+    if id is None or status is None:
+        print("Please provide task id and new description")
+        return
+
+    try:
+        a = int(id)
+    except (TypeError, ValueError):
+        print("Please enter a valid task id")
+        return
+
+    for task in tasks:
+        if task["id"] == a:
+            task["status"] = status
+            print(f"status successfully added: {task}")
+            return
+
+    print("Error")
         
 
 
