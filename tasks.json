@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "description": "sold the pen",
+        "status": "done"
+    },
+    {
+        "id": 2,
+        "description": "test info",
+        "status": "todo"
+    },
+    {
+        "id": 3,
+        "description": "check the functions",
+        "status": "todo"
+    }
+]

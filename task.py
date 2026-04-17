@@ -40,7 +40,11 @@ def filter_info(info):
             task_id = info[1]
             mark_done(task_id, "done")
         elif main_command == "list":
-                listing_info() #list all the tasks
+                if len(info) < 2:
+                 listing_info() #list all the tasks
+                else:
+                    sub_info = info[1]
+                    listing_info(sub_info)
         else:
             print("unknow command! ")
 
@@ -59,11 +63,21 @@ def adding_info(follow_up=None):
         print(f"Task added successfully: {new_task}")
  
 def listing_info(status=None):
-    if len(tasks) == 0 :
+    if len(tasks) == 0:
         print("No task yet")
     else:
+        found = False
         for task in tasks:
-            print(formating_data(task))
+            # If status is None, show everything. 
+            # If status matches (like "done"), show only those.
+            if status is None or task["status"] == status:
+                print(formating_data(task))
+                found = True
+        
+        if not found:
+            print(f"No tasks found with status: {status}")
+
+
 run = True
 def delete_fuc(index=None):
     if index is None:
@@ -75,7 +89,7 @@ def delete_fuc(index=None):
 
         for position, task in enumerate(tasks, start=1):
             task["id"] = position
-
+        save_tasks()
         print(f"Deleted task: {deleted}")
     except (TypeError, ValueError, IndexError):
         print("Please enter a valid task id")
@@ -94,6 +108,7 @@ def update_fuc(id=None, new_text=None):
     for task in tasks:
         if task["id"] == a:
             task["description"] = new_text
+            save_tasks()
             print(f"Task updated successfully: {task}")
             return
 
@@ -114,6 +129,7 @@ def mark_in_progress(id=None, status=None):
     for task in tasks:
         if task["id"] == a:
             task["status"] = status
+            save_tasks()
             print(f"status successfully added: {task}")
             return
 
@@ -133,6 +149,7 @@ def mark_done(id=None, status=None):
     for task in tasks:
         if task["id"] == a:
             task["status"] = status
+            save_tasks()
             print(f"status successfully added: {task}")
             return
 
